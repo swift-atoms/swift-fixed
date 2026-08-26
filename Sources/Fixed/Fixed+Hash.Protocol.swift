@@ -1,6 +1,6 @@
 public import Fixed_Primitive
-public import Hash_Primitives_Standard_Library_Integration
-public import Span_Protocol_Primitives
+public import Hash_Standard_Library_Integration
+public import Span_Protocol
 
 extension __Fixed: Hash.`Protocol`
 where S: Span.`Protocol` & ~Copyable, S.Element: Hash.`Protocol` {

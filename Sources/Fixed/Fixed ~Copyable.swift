@@ -1,11 +1,11 @@
-public import Buffer_Protocol_Primitives
-public import Collection_Primitives
+public import Buffer_Protocol
+public import Collection
 public import Fixed_Primitive
 public import Iterable
-public import Iterator_Chunk_Primitives
-import Memory_Iterator_Primitives
-public import Span_Protocol_Primitives
-public import Store_Protocol_Primitives
+public import Iterator_Chunk
+import Memory_Iterator
+public import Span_Protocol
+public import Store_Protocol
 
 extension __Fixed: Collection.`Protocol`
 where S: Span.`Protocol` & Store.`Protocol` & Buffer.`Protocol` & ~Copyable {

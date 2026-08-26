@@ -1,15 +1,15 @@
 import Buffer_Linear_Bounded_Primitive
 import Buffer_Linear_Primitive
 import Buffer_Primitive
-import Buffer_Primitives_Test_Support
-import Fixed_Primitives
-import Index_Primitives
+import Buffer_Test_Support
+import Fixed
+import Index
 import Memory_Allocator_Primitive
-import Memory_Heap_Primitives
-import Ordinal_Primitives_Standard_Library_Integration
-import Storage_Contiguous_Primitives
+import Memory_Heap
+import Ordinal_Standard_Library_Integration
+import Storage_Contiguous
 import Storage_Primitive
-import Tagged_Primitives_Standard_Library_Integration
+import Tagged_Standard_Library_Integration
 import Testing
 
 private typealias BoundedHeapColumn<E: ~Copyable> =

@@ -1,4 +1,4 @@
-# Fixed Primitives
+# Fixed
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
@@ -13,10 +13,10 @@
 The pinned constructors build the canonical non-growable heap column for you and infer the column type, so the common case needs no column spelling:
 
 ```swift
-import Fixed_Primitives
-import Index_Primitives
-import Tagged_Primitives_Standard_Library_Integration
-import Ordinal_Primitives_Standard_Library_Integration
+import Fixed
+import Index
+import Tagged_Standard_Library_Integration
+import Ordinal_Standard_Library_Integration
 
 // Build three slots, each initialized at construction — `count == capacity` is
 // structural, so there is never a partially-filled state to handle.
@@ -31,7 +31,7 @@ print(grid.count == grid.capacity)               // true  — always-full, by co
 print(grid.freeCapacity == Index<Int>.Count(0))  // true  — no slot left to grow into
 ```
 
-The two `*_Standard_Library_Integration` imports come from `swift-tagged-primitives` and `swift-ordinal-primitives`; they let typed indices accept plain integer literals (`grid[0]`, `Index<Int>.Count(3)`). Add those packages alongside this one to use that syntax.
+The two `*_Standard_Library_Integration` imports come from `swift-tagged` and `swift-ordinal`; they let typed indices accept plain integer literals (`grid[0]`, `Index<Int>.Count(3)`). Add those packages alongside this one to use that syntax.
 
 `Fixed` is conditionally `Copyable` and `Sendable` exactly when its backing column is, and it adds no storage of its own — the invariant is structural, not bookkeeping.
 
@@ -41,7 +41,7 @@ The two `*_Standard_Library_Integration` imports come from `swift-tagged-primiti
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-primitives/swift-fixed-primitives.git", branch: "main")
+    .package(url: "https://github.com/swift-molecules/swift-fixed.git", branch: "main")
 ]
 ```
 
@@ -49,7 +49,7 @@ dependencies: [
 .target(
     name: "App",
     dependencies: [
-        .product(name: "Fixed Primitives", package: "swift-fixed-primitives"),
+        .product(name: "Fixed", package: "swift-fixed"),
     ]
 )
 ```
@@ -65,7 +65,7 @@ Two library products over the `Store` / `Buffer` column primitives.
 | Product | Target | Purpose |
 |---------|--------|---------|
 | `Fixed Primitive` | `Sources/Fixed Primitive/` | The `Fixed<S>` namespace and base type — the always-full column adapter and its `Fixed.Error`. |
-| `Fixed Primitives` | `Sources/Fixed Primitives/` | Umbrella — the `Collection` / `Span` / `Equation` / `Hash` conformances and the pinned bounded-heap-column constructors; re-exports `Fixed Primitive`. |
+| `Fixed` | `Sources/Fixed/` | Umbrella — the `Collection` / `Span` / `Equation` / `Hash` conformances and the pinned bounded-heap-column constructors; re-exports `Fixed Primitive`. |
 
 Foundation-free.
 

@@ -1,6 +1,6 @@
-public import Buffer_Protocol_Primitives
-public import Index_Primitives
-public import Store_Protocol_Primitives
+public import Buffer_Protocol
+public import Index
+public import Store_Protocol
 
 @_documentation(visibility: public)
 @frozen
@@ -25,5 +25,5 @@ extension __Fixed where S: ~Copyable, S: Store.`Protocol` & Buffer.`Protocol` {
 
 extension __Fixed where S: Store.`Protocol` & ~Copyable {
 
-    public typealias Index = Index_Primitives.Index<S.Element>
+    public typealias Index = Index.Index<S.Element>
 }

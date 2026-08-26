@@ -1,18 +1,18 @@
-public import Buffer_Linear_Bounded_Primitives
+public import Buffer_Linear_Bounded
 public import Buffer_Linear_Primitive
 public import Buffer_Primitive
 public import Fixed_Primitive
-public import Index_Primitives
+public import Index
 public import Memory_Allocator_Primitive
-public import Memory_Heap_Primitives
-public import Storage_Contiguous_Primitives
+public import Memory_Heap
+public import Storage_Contiguous
 
 extension __Fixed where S: ~Copyable {
 
     @inlinable
     public init<E: ~Copyable>(
-        count: Index_Primitives.Index<E>.Count,
-        initializingWith initializer: (Index_Primitives.Index<E>) -> E
+        count: Index.Index<E>.Count,
+        initializingWith initializer: (Index.Index<E>) -> E
     ) throws(__Fixed<S>.Error)
     where S == Buffer<Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>>.Linear.Bounded {
         guard count >= .zero else {
@@ -24,8 +24,8 @@ extension __Fixed where S: ~Copyable {
     @inlinable
     public init<E: ~Copyable>(
         __unchecked: Void,
-        count: Index_Primitives.Index<E>.Count,
-        initializingWith initializer: (Index_Primitives.Index<E>) -> E
+        count: Index.Index<E>.Count,
+        initializingWith initializer: (Index.Index<E>) -> E
     )
     where S == Buffer<Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>>.Linear.Bounded {
         if count == .zero {
@@ -41,7 +41,7 @@ extension __Fixed where S: ~Copyable {
             initializingCount: count,
             with: { ptr in
                 for i in 0..<Int(bitPattern: count) {
-                    let index = Index_Primitives.Index<E>(Ordinal(UInt(i)))
+                    let index = Index.Index<E>(Ordinal(UInt(i)))
                     ptr.append(initializer(index))
                 }
             }
@@ -50,14 +50,14 @@ extension __Fixed where S: ~Copyable {
     }
 
     @inlinable
-    public init<E>(repeating value: E, count: Index_Primitives.Index<E>.Count)
+    public init<E>(repeating value: E, count: Index.Index<E>.Count)
     where S == Buffer<Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>>.Linear.Bounded {
         self.init(__unchecked: (), count: count, initializingWith: { _ in value })
     }
 
     @inlinable
     public init<E: ~Copyable, Failure: Swift.Error>(
-        capacity: Index_Primitives.Index<E>.Count,
+        capacity: Index.Index<E>.Count,
         initializingWith initializer: (inout Swift.OutputSpan<E>) throws(Failure) -> Void
     ) throws(Failure)
     where S == Buffer<Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>>.Linear.Bounded {
