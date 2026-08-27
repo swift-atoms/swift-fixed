@@ -31,19 +31,7 @@ let package = Package(
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-buffer-linear.git",
-            branch: "main"
-        ),
-        .package(
             url: "https://github.com/swift-atoms/swift-storage.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-memory-allocation.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-memory-heap.git",
             branch: "main"
         ),
         .package(
@@ -57,29 +45,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Store Protocol", package: "swift-storage"),
                 .product(name: "Buffer Protocol", package: "swift-buffer"),
-                .product(name: "Buffer Primitive", package: "swift-buffer"),
                 .product(name: "Index", package: "swift-index"),
-                .product(
-                    name: "Buffer Linear Primitive",
-                    package: "swift-buffer-linear"
-                ),
-                .product(
-                    name: "Buffer Linear Bounded",
-                    package: "swift-buffer-linear"
-                ),
-                .product(
-                    name: "Buffer Linear Bounded Primitive",
-                    package: "swift-buffer-linear"
-                ),
-                .product(
-                    name: "Storage Contiguous",
-                    package: "swift-storage"
-                ),
-                .product(
-                    name: "Memory Allocator Primitive",
-                    package: "swift-memory-allocation"
-                ),
-                .product(name: "Memory Heap", package: "swift-memory-heap"),
             ]
         ),
         .target(
