@@ -1,40 +1,5 @@
 public import Buffer_Protocol
-public import Collection
-public import Fixed_Primitive
-public import Iterable
-public import Iterator_Chunk
-import Memory_Iterator
-public import Span_Protocol
 public import Store_Protocol
-
-extension __Fixed: Collection.`Protocol`
-where S: Span.`Protocol` & Store.`Protocol` & Buffer.`Protocol` & ~Copyable {
-
-    public typealias Element = S.Element
-}
-
-extension __Fixed: Collection.Access.Random
-where S: Span.`Protocol` & Store.`Protocol` & Buffer.`Protocol` & ~Copyable {}
-
-extension __Fixed: Collection.Bidirectional
-where S: Span.`Protocol` & Store.`Protocol` & Buffer.`Protocol` & ~Copyable {}
-
-extension __Fixed: Span.`Protocol` where S: Span.`Protocol` & ~Copyable {
-
-    @inlinable
-    public var span: Swift.Span<S.Element> {
-        @_lifetime(borrow self)
-        borrowing get {
-            store.span
-        }
-    }
-}
-
-extension __Fixed: Iterable where S: Span.`Protocol` & ~Copyable {
-
-    @_implements(Iterable,Iterator)
-    public typealias IterableIterator = Iterator_Primitive.Iterator.Chunk<S.Element>
-}
 
 extension __Fixed where S: ~Copyable, S: Store.`Protocol` & Buffer.`Protocol` {
 

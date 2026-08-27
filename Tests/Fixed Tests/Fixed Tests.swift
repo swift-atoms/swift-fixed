@@ -73,23 +73,6 @@ struct `Fixed Tests` {
     @Test
 
     @_optimize(none)
-    func `OutputSpan init enforces full population and reads back via span`() {
-        let f = FixedArray<Int>(capacity: Index<Int>.Count(3)) { span in
-            span.append(1)
-            span.append(2)
-            span.append(3)
-        }
-        var sum = 0
-        do {
-            let span = f.span
-            for i in 0..<span.count { sum += span[i] }
-        }
-        #expect(sum == 6)
-    }
-
-    @Test
-
-    @_optimize(none)
     func `mutableSpan writes through; index defaults navigate`() throws {
         var f = try FixedArray<Int>(count: Index<Int>.Count(2)) { _ in 5 }
         do {
@@ -119,26 +102,6 @@ struct `Fixed Tests` {
         }
         let count = Probe.destroyedCount
         #expect(count == 2)
-    }
-
-    @Test
-
-    @_optimize(none)
-    func `Fixed equality and hashing are span-keyed and capacity-independent`() throws {
-        let f1 = try FixedArray<Int>(count: Index<Int>.Count(3)) { _ in 7 }
-        let f2 = try FixedArray<Int>(count: Index<Int>.Count(3)) { _ in 7 }
-        let equal = (f1 == f2)
-        #expect(equal)
-        var h1 = Hasher()
-        var h2 = Hasher()
-        f1.hash(into: &h1)
-        f2.hash(into: &h2)
-        #expect(h1.finalize() == h2.finalize())
-
-        var f3 = try FixedArray<Int>(count: Index<Int>.Count(3)) { _ in 7 }
-        f3[1] = 8
-        let diverged = (f1 != f3)
-        #expect(diverged)
     }
 }
 

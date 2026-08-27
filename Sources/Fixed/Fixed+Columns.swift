@@ -1,7 +1,6 @@
 public import Buffer_Linear_Bounded
 public import Buffer_Linear_Primitive
 public import Buffer_Primitive
-public import Fixed_Primitive
 public import Index
 public import Memory_Allocator_Primitive
 public import Memory_Heap

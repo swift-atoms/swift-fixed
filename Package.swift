@@ -12,14 +12,22 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-
-        .library(name: "Fixed Primitive", targets: ["Fixed Primitive"]),
-
-        .library(name: "Fixed", targets: ["Fixed"]),
+        .library(
+            name: "Fixed",
+            targets: ["Fixed"]
+        ),
+        .library(
+            name: "Fixed Standard Library Integration",
+            targets: ["Fixed Standard Library Integration"]
+        ),
+        .library(
+            name: "Fixed Apple Foundation Integration",
+            targets: ["Fixed Apple Foundation Integration"]
+        ),
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-molecules/swift-buffer.git",
+            url: "https://github.com/swift-atoms/swift-buffer.git",
             branch: "main"
         ),
         .package(
@@ -27,11 +35,7 @@ let package = Package(
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-span.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-storage.git",
+            url: "https://github.com/swift-atoms/swift-storage.git",
             branch: "main"
         ),
         .package(
@@ -43,133 +47,55 @@ let package = Package(
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-molecules/swift-memory-iterator.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-collection.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-index.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-iterator.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-equation.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-hash.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-tagged.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-molecules/swift-ordinal.git",
+            url: "https://github.com/swift-atoms/swift-index.git",
             branch: "main"
         ),
     ],
     targets: [
-
-        .target(
-            name: "Fixed Primitive",
-            dependencies: [
-                .product(name: "Store Protocol", package: "swift-storage"),
-                .product(name: "Buffer Protocol", package: "swift-buffer"),
-                .product(name: "Index", package: "swift-index"),
-                .product(name: "Buffer Primitive", package: "swift-buffer"),
-                .product(
-                    name: "Buffer Linear Primitive",
-                    package: "swift-buffer-linear"
-                ),
-                .product(
-                    name: "Buffer Linear Bounded Primitive",
-                    package: "swift-buffer-linear"
-                ),
-                .product(
-                    name: "Storage Contiguous",
-                    package: "swift-storage"
-                ),
-                .product(
-                    name: "Memory Allocator Primitive",
-                    package: "swift-memory-allocation"
-                ),
-                .product(name: "Memory Heap", package: "swift-memory-heap"),
-            ]
-        ),
-
         .target(
             name: "Fixed",
             dependencies: [
-                "Fixed Primitive",
                 .product(name: "Store Protocol", package: "swift-storage"),
                 .product(name: "Buffer Protocol", package: "swift-buffer"),
                 .product(name: "Buffer Primitive", package: "swift-buffer"),
+                .product(name: "Index", package: "swift-index"),
                 .product(
                     name: "Buffer Linear Primitive",
                     package: "swift-buffer-linear"
-                ),
-                .product(name: "Span Protocol", package: "swift-span"),
-                .product(
-                    name: "Storage Contiguous",
-                    package: "swift-storage"
-                ),
-                .product(
-                    name: "Memory Allocator Primitive",
-                    package: "swift-memory-allocation"
-                ),
-                .product(name: "Memory Heap", package: "swift-memory-heap"),
-                .product(
-                    name: "Memory Iterator",
-                    package: "swift-memory-iterator"
                 ),
                 .product(
                     name: "Buffer Linear Bounded",
                     package: "swift-buffer-linear"
                 ),
-                .product(name: "Collection", package: "swift-collection"),
-                .product(name: "Index", package: "swift-index"),
-                .product(name: "Iterable", package: "swift-iterator"),
-                .product(name: "Iterator Chunk", package: "swift-iterator"),
-                .product(
-                    name: "Equation Standard Library Integration",
-                    package: "swift-equation"
-                ),
-                .product(
-                    name: "Hash Standard Library Integration",
-                    package: "swift-hash"
-                ),
-            ]
-        ),
-
-        .testTarget(
-            name: "Fixed Tests",
-            dependencies: [
-                "Fixed",
                 .product(
                     name: "Buffer Linear Bounded Primitive",
                     package: "swift-buffer-linear"
                 ),
-                .product(name: "Storage Primitive", package: "swift-storage"),
                 .product(
-                    name: "Tagged Standard Library Integration",
-                    package: "swift-tagged"
+                    name: "Storage Contiguous",
+                    package: "swift-storage"
                 ),
                 .product(
-                    name: "Ordinal Standard Library Integration",
-                    package: "swift-ordinal"
+                    name: "Memory Allocator Primitive",
+                    package: "swift-memory-allocation"
                 ),
-                .product(
-                    name: "Buffer Test Support",
-                    package: "swift-buffer"
-                ),
+                .product(name: "Memory Heap", package: "swift-memory-heap"),
             ]
+        ),
+        .target(
+            name: "Fixed Standard Library Integration",
+            dependencies: ["Fixed"]
+        ),
+        .target(
+            name: "Fixed Apple Foundation Integration",
+            dependencies: [
+                "Fixed",
+                "Fixed Standard Library Integration",
+            ]
+        ),
+        .testTarget(
+            name: "Fixed Tests",
+            dependencies: ["Fixed"]
         ),
     ],
     swiftLanguageModes: [.v6]
