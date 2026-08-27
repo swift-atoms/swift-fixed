@@ -1,3 +1,2 @@
 public import Fixed
-public import Fixed_Standard_Library_Integration
 public import Foundation

@@ -17,12 +17,12 @@ let package = Package(
             targets: ["Fixed"]
         ),
         .library(
-            name: "Fixed Standard Library Integration",
-            targets: ["Fixed Standard Library Integration"]
-        ),
-        .library(
             name: "Fixed Apple Foundation Integration",
             targets: ["Fixed Apple Foundation Integration"]
+        ),
+        .library(
+            name: "Fixed Test Support",
+            targets: ["Fixed Test Support"]
         ),
     ],
     dependencies: [
@@ -43,25 +43,28 @@ let package = Package(
         .target(
             name: "Fixed",
             dependencies: [
-                .product(name: "Store Protocol", package: "swift-storage"),
-                .product(name: "Buffer Protocol", package: "swift-buffer"),
+                .product(name: "Buffer", package: "swift-buffer"),
                 .product(name: "Index", package: "swift-index"),
+                .product(name: "Storage", package: "swift-storage"),
             ]
-        ),
-        .target(
-            name: "Fixed Standard Library Integration",
-            dependencies: ["Fixed"]
         ),
         .target(
             name: "Fixed Apple Foundation Integration",
-            dependencies: [
-                "Fixed",
-                "Fixed Standard Library Integration",
-            ]
+            dependencies: ["Fixed"]
+        ),
+        .target(
+            name: "Fixed Test Support",
+            dependencies: ["Fixed"],
+            path: "Tests/Support"
         ),
         .testTarget(
             name: "Fixed Tests",
-            dependencies: ["Fixed"]
+            dependencies: [
+                "Fixed",
+                "Fixed Test Support",
+                .product(name: "Index", package: "swift-index"),
+                .product(name: "Storage", package: "swift-storage"),
+            ]
         ),
     ],
     swiftLanguageModes: [.v6]
