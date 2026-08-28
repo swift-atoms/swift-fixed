@@ -1,109 +1,99 @@
-public import Index
-public import Storage
+public import Buffer_Protocol
+public import Store_Protocol
 
-extension __Fixed where S: Store.Ledgered.`Protocol` & ~Copyable {
-
-    @inlinable
-    public var startIndex: Index<S.Element> { .zero }
+extension __Fixed where S: ~Copyable, S: Store.`Protocol` & Buffer.`Protocol` {
 
     @inlinable
-    public var endIndex: Index<S.Element> { Index(count) }
+    public var startIndex: Index { .zero }
 
     @inlinable
-    public func index(after i: Index<S.Element>) -> Index<S.Element> {
-        i.advanced(by: .one)
-    }
+    public var endIndex: Index { count.map(Ordinal.init) }
 
     @inlinable
-    public func index(before i: Index<S.Element>) -> Index<S.Element> {
-        precondition(i.rawValue > 0, "Fixed.index(before:) called on the start index")
-        return Index(i.rawValue - 1)
-    }
-}
-
-extension __Fixed where S: Store.Ledgered.`Protocol` & ~Copyable {
+    public func index(after i: Index) -> Index { i.successor.saturating() }
 
     @inlinable
-    public var count: Index<S.Element>.Count { store.initialization.count }
-
-    @inlinable
-    public var isEmpty: Bool { store.initialization.isEmpty }
-
-    @inlinable
-    public var capacity: Index<S.Element>.Count { store.capacity }
-
-    @inlinable
-    public var freeCapacity: Index<S.Element>.Count {
-        store.capacity.subtracting(saturating: store.initialization.count)
+    public func index(before i: Index) -> Index {
+        do {
+            return try i.predecessor.exact()
+        } catch {
+            preconditionFailure("Fixed.index(before:) called on the start index")
+        }
     }
 }
 
-extension __Fixed where S: Store.Ledgered.`Protocol` & ~Copyable {
+extension __Fixed where S: ~Copyable, S: Store.`Protocol` & Buffer.`Protocol` {
 
     @inlinable
-    public subscript(_ index: Index<S.Element>) -> S.Element {
+    public var count: Index.Count { store.count }
+
+    @inlinable
+    public var isEmpty: Bool { store.isEmpty }
+
+    @inlinable
+    public var capacity: Index.Count { store.capacity }
+
+    @inlinable
+    public var freeCapacity: Index.Count {
+        store.capacity.subtract.saturating(store.count)
+    }
+}
+
+extension __Fixed where S: ~Copyable, S: Store.`Protocol` & Buffer.`Protocol` {
+
+    @inlinable
+    public subscript(_ index: Index) -> S.Element {
         _read {
-            precondition(index < endIndex, "Index out of bounds")
+            precondition(index < count, "Index out of bounds")
             yield store[index]
         }
         _modify {
-            precondition(index < endIndex, "Index out of bounds")
+            precondition(index < count, "Index out of bounds")
             store.unshare()
             yield &store[index]
         }
     }
 
     @inlinable
-    public func withElement<R>(
-        at index: Index<S.Element>,
-        _ body: (borrowing S.Element) -> R
-    ) -> R {
-        precondition(index < endIndex, "Index out of bounds")
+    public func withElement<R>(at index: Index, _ body: (borrowing S.Element) -> R) -> R {
+        precondition(index < count, "Index out of bounds")
         return body(store[index])
     }
 }
 
-extension __Fixed where S: Store.Ledgered.`Protocol` & ~Copyable, S.Element: Copyable {
+extension __Fixed where S: ~Copyable, S.Element: Copyable, S: Store.`Protocol` & Buffer.`Protocol` {
 
     @inlinable
-    public func element(at index: Index<S.Element>) -> S.Element? {
-        guard index < endIndex else { return nil }
+    public func element(at index: Index) -> S.Element? {
+        guard index < count else { return nil }
         return store[index]
     }
 
     @inlinable
     public func element(
-        at base: Index<S.Element>,
-        offsetBy offset: Int
+        at base: Index,
+        offsetBy offset: Index.Offset
     ) -> S.Element? {
-        let rawValue: UInt
-        if offset >= 0 {
-            let (result, overflow) = base.rawValue.addingReportingOverflow(UInt(offset))
-            guard !overflow else { return nil }
-            rawValue = result
-        } else {
-            let magnitude = offset.magnitude
-            guard magnitude <= base.rawValue else { return nil }
-            rawValue = base.rawValue - magnitude
+        let newIndex: Index
+        do {
+            newIndex = try base + offset
+        } catch {
+            return nil
         }
-        guard rawValue < count.rawValue else { return nil }
-        let newIndex = Index<S.Element>(rawValue)
+        guard newIndex < count else { return nil }
         return store[newIndex]
     }
 }
 
-extension __Fixed where S: Store.Ledgered.`Protocol` & ~Copyable {
+extension __Fixed where S: ~Copyable, S: Store.`Protocol` & Buffer.`Protocol` {
 
     @inlinable
-    public mutating func swap(at i: Index<S.Element>, with j: Index<S.Element>) {
-        precondition(
-            i < endIndex && j < endIndex,
-            "Index out of bounds"
-        )
+    public mutating func swap(at i: Index, with j: Index) {
+        precondition(i < count && j < count, "Index out of bounds")
         guard i != j else { return }
         store.unshare()
 
-        let tail = Index<S.Element>(count.subtracting(saturating: .one))
+        let tail = count.subtract.saturating(.one).map(Ordinal.init)
         var carry = store.move(at: tail)
         if i == tail {
             Swift.swap(&carry, &store[j])

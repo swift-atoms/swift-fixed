@@ -2,40 +2,38 @@
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
-`Fixed<S>` — an adapter that enforces the `count == capacity` invariant from construction onward, giving an always-full view over any ledgered `Store`.
+`Fixed<S>` — a column adapter that enforces the `count == capacity` invariant from construction onward, giving an always-full array over any `Store` / `Buffer` column.
 
 ---
 
 ## Quick Start
 
-`Fixed<S>` wraps a ledgered store and proves that every slot is initialized: `count == capacity` is established at construction and preserved by the surface. There is no `append` or `remove` that could leave a hole — the only writes are in place (`subscript`, `swap`), so downstream code never has to handle the partially-filled case.
+`Fixed<S>` wraps a storage column and proves, at the type level, that every slot is initialized: `count == capacity` is established at construction and preserved by the surface. There is no `append` or `remove` that could leave a hole — the only writes are in place (`subscript`, `swap`), so downstream code never has to handle the partially-filled case.
 
-The inline store below has three slots. Initialize each slot before wrapping it as `Fixed`:
+The pinned constructors build the canonical non-growable heap column for you and infer the column type, so the common case needs no column spelling:
 
 ```swift
 import Fixed
+import Index
+import Tagged_Standard_Library_Integration
+import Ordinal_Standard_Library_Integration
 
-var store = Store.Inline<Int, 3>()
-for rawValue in UInt(0)..<UInt(3) {
-    let index = Index<Int>(rawValue)
-    let value = 0
-    store.initialize(at: index, to: value)
-}
+// Build three slots, each initialized at construction — `count == capacity` is
+// structural, so there is never a partially-filled state to handle.
+var grid = Fixed(repeating: 0, count: Index<Int>.Count(3))
 
-var grid = Fixed(store: store)
+grid[0] = 10            // in-place replacement — the only kind of write Fixed allows
+grid[2] = 30
+grid.swap(at: 0, with: 2)
 
-let first = grid.startIndex
-let last = grid.index(before: grid.endIndex)
-grid[first] = 10
-grid[last] = 30
-grid.swap(at: first, with: last)
-
-print(grid[first])                   // 30
-print(grid.count == grid.capacity)   // true — always full
-print(grid.freeCapacity == .zero)    // true — no free slot
+print(grid[0])                                   // 30
+print(grid.count == grid.capacity)               // true  — always-full, by construction
+print(grid.freeCapacity == Index<Int>.Count(0))  // true  — no slot left to grow into
 ```
 
-`Fixed` is conditionally `Copyable` and `Sendable` exactly when its backing store is, and it adds no storage of its own — the initialization ledger remains the source of truth.
+The two `*_Standard_Library_Integration` imports come from `swift-tagged` and `swift-ordinal`; they let typed indices accept plain integer literals (`grid[0]`, `Index<Int>.Count(3)`). Add those packages alongside this one to use that syntax.
+
+`Fixed` is conditionally `Copyable` and `Sendable` exactly when its backing column is, and it adds no storage of its own — the invariant is structural, not bookkeeping.
 
 ---
 
@@ -43,7 +41,7 @@ print(grid.freeCapacity == .zero)    // true — no free slot
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-atoms/swift-fixed.git", branch: "main")
+    .package(url: "https://github.com/swift-molecules/swift-fixed.git", branch: "main")
 ]
 ```
 
@@ -56,21 +54,20 @@ dependencies: [
 )
 ```
 
-The package is pre-1.0 — depend on `branch: "main"` until `0.1.0` is tagged. Requires Swift 6.4 and macOS 27 / iOS 27 / tvOS 27 / watchOS 27 / visionOS 27 (or the matching Linux / Windows toolchain).
+The package is pre-1.0 — depend on `branch: "main"` until `0.1.0` is tagged. Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 (or the matching Linux / Windows toolchain).
 
 ---
 
 ## Architecture
 
-Three library products over the `Buffer`, `Index`, and `Storage` atoms.
+Two library products over the `Store` / `Buffer` column primitives.
 
 | Product | Target | Purpose |
 |---------|--------|---------|
-| `Fixed` | `Sources/Fixed/` | The generic always-full store adapter and its invariant-preserving indexed operations. |
-| `Fixed Apple Foundation Integration` | `Sources/Fixed Apple Foundation Integration/` | The Foundation-facing aggregation product. |
-| `Fixed Test Support` | `Tests/Support/` | Re-exports the core module for test consumers. |
+| `Fixed Primitive` | `Sources/Fixed Primitive/` | The `Fixed<S>` namespace and base type — the always-full column adapter and its `Fixed.Error`. |
+| `Fixed` | `Sources/Fixed/` | Umbrella — the `Collection` / `Span` / `Equation` / `Hash` conformances and the pinned bounded-heap-column constructors; re-exports `Fixed Primitive`. |
 
-Foundation is imported only by the Apple Foundation Integration target.
+Foundation-free.
 
 ---
 
@@ -78,10 +75,10 @@ Foundation is imported only by the Apple Foundation Integration target.
 
 | Platform | Status |
 |----------|--------|
-| macOS 27 | Full support |
+| macOS 26 | Full support |
 | Linux | Full support |
 | Windows | Full support |
-| iOS 27 / tvOS 27 / watchOS 27 / visionOS 27 | Supported |
+| iOS / tvOS / watchOS / visionOS | Supported |
 
 ---
 
