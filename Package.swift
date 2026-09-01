@@ -57,7 +57,7 @@ let package = Package(
             dependencies: [
                 .product(name: "Store Protocol", package: "swift-storage"),
                 .product(name: "Buffer Protocol", package: "swift-buffer"),
-                .product(name: "Buffer Primitive", package: "swift-buffer"),
+                .product(name: "Buffer", package: "swift-buffer"),
                 .product(name: "Index", package: "swift-index"),
                 .product(
                     name: "Buffer Linear Primitive",

@@ -1,6 +1,6 @@
 import Buffer_Linear_Bounded_Primitive
 import Buffer_Linear_Primitive
-import Buffer_Primitive
+import Buffer
 import Buffer_Test_Support
 import Fixed
 import Index
@@ -8,7 +8,7 @@ import Memory_Allocator
 import Memory
 import Ordinal_Standard_Library_Integration
 import Storage_Contiguous
-import Storage_Primitive
+import Storage
 import Tagged_Standard_Library_Integration
 import Testing
 

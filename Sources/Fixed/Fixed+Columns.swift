@@ -1,6 +1,6 @@
 public import Buffer_Linear_Bounded
 public import Buffer_Linear_Primitive
-public import Buffer_Primitive
+public import Buffer
 public import Index
 public import Memory_Allocator
 public import Memory
