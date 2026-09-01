@@ -4,7 +4,7 @@ public import Buffer
 public import Index
 public import Memory_Allocator
 public import Memory
-public import Storage_Contiguous
+public import Storage
 
 extension __Fixed where S: ~Copyable {
 

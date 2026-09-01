@@ -27,6 +27,10 @@ let package = Package(
     ],
     dependencies: [
         .package(
+            url: "https://github.com/swift-atoms/swift-store.git",
+            branch: "main"
+        ),
+        .package(
             url: "https://github.com/swift-atoms/swift-buffer.git",
             branch: "main"
         ),
@@ -55,7 +59,7 @@ let package = Package(
         .target(
             name: "Fixed",
             dependencies: [
-                .product(name: "Store Protocol", package: "swift-storage"),
+                .product(name: "Store Protocol", package: "swift-store"),
                 .product(name: "Buffer Protocol", package: "swift-buffer"),
                 .product(name: "Buffer", package: "swift-buffer"),
                 .product(name: "Index", package: "swift-index"),
@@ -71,10 +75,7 @@ let package = Package(
                     name: "Buffer Linear Bounded Primitive",
                     package: "swift-buffer-linear"
                 ),
-                .product(
-                    name: "Storage Contiguous",
-                    package: "swift-storage"
-                ),
+                .product(name: "Storage", package: "swift-storage"),
                 .product(
                     name: "Memory Allocator",
                     package: "swift-memory-allocation"
