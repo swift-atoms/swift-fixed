@@ -5,7 +5,7 @@ import Buffer_Test_Support
 import Fixed
 import Index
 import Memory_Allocator_Primitive
-import Memory_Heap
+import Memory
 import Ordinal_Standard_Library_Integration
 import Storage_Contiguous
 import Storage_Primitive

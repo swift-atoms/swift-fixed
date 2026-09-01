@@ -3,7 +3,7 @@ public import Buffer_Linear_Primitive
 public import Buffer_Primitive
 public import Index
 public import Memory_Allocator_Primitive
-public import Memory_Heap
+public import Memory
 public import Storage_Contiguous
 
 extension __Fixed where S: ~Copyable {
