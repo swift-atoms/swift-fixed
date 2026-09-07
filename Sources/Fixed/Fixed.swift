@@ -1,6 +1,6 @@
-public import Buffer_Protocol
+public import Buffer
 public import Index
-public import Store_Protocol
+public import Store
 
 @_documentation(visibility: public)
 @frozen

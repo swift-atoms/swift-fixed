@@ -1,5 +1,5 @@
-public import Buffer_Protocol
-public import Store_Protocol
+public import Buffer
+public import Store
 
 extension __Fixed where S: ~Copyable, S: Store.`Protocol` & Buffer.`Protocol` {
 

@@ -59,8 +59,7 @@ let package = Package(
         .target(
             name: "Fixed",
             dependencies: [
-                .product(name: "Store Protocol", package: "swift-store"),
-                .product(name: "Buffer Protocol", package: "swift-buffer"),
+                .product(name: "Store", package: "swift-store"),
                 .product(name: "Buffer", package: "swift-buffer"),
                 .product(name: "Index", package: "swift-index"),
                 .product(
