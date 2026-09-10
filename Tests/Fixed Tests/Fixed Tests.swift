@@ -6,9 +6,9 @@ import Fixed
 import Index
 import Memory_Allocator
 import Memory
-import Ordinal_Standard_Library_Integration
+import Ordinal
 import Storage
-import Tagged_Standard_Library_Integration
+import Tagged
 import Testing
 
 private typealias BoundedHeapColumn<E: ~Copyable> =
