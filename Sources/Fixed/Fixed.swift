@@ -25,5 +25,5 @@ extension __Fixed where S: ~Copyable, S: Store.`Protocol` & Buffer.`Protocol` {
 
 extension __Fixed where S: Store.`Protocol` & ~Copyable {
 
-    public typealias Index = Index.Index<S.Element>
+    public typealias Index = Index::Index<S.Element>
 }

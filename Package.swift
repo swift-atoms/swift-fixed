@@ -99,7 +99,7 @@ let package = Package(
         ),
         .testTarget(
             name: "Fixed Tests",
-            dependencies: ["Fixed"]
+            dependencies: ["Fixed", .product(name: "Buffer Test Support", package: "swift-buffer")]
         ),
 
         .testTarget(name: "Decision Fixed Integration Tests", dependencies: ["Fixed", .product(name: "Cardinal", package: "swift-cardinal"), .product(name: "Ordinal", package: "swift-ordinal"), .product(name: "Tagged", package: "swift-tagged"), .product(name: "Index", package: "swift-index"), .product(name: "Storage", package: "swift-storage"), .product(name: "Store", package: "swift-store"), .product(name: "Buffer", package: "swift-buffer")], path: "Tests/Decision Fixed Integration Tests"),
