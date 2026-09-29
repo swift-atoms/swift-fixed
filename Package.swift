@@ -41,7 +41,7 @@ let package = Package(
         .package(
             url: "https://github.com/swift-atoms/swift-storage.git",
             branch: "main"
-        ),
+        , traits: ["Memory"]),
         .package(
             url: "https://github.com/swift-molecules/swift-memory-allocation.git",
             branch: "main"
@@ -54,6 +54,10 @@ let package = Package(
             url: "https://github.com/swift-atoms/swift-index.git",
             branch: "main"
         ),
+
+        .package(url: "https://github.com/swift-atoms/swift-cardinal.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-ordinal.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-tagged.git", branch: "main"),
     ],
     targets: [
         .target(
@@ -97,6 +101,8 @@ let package = Package(
             name: "Fixed Tests",
             dependencies: ["Fixed"]
         ),
+
+        .testTarget(name: "Decision Fixed Integration Tests", dependencies: ["Fixed", .product(name: "Cardinal", package: "swift-cardinal"), .product(name: "Ordinal", package: "swift-ordinal"), .product(name: "Tagged", package: "swift-tagged"), .product(name: "Index", package: "swift-index"), .product(name: "Storage", package: "swift-storage"), .product(name: "Store", package: "swift-store"), .product(name: "Buffer", package: "swift-buffer")], path: "Tests/Decision Fixed Integration Tests"),
     ],
     swiftLanguageModes: [.v6]
 )
