@@ -3,6 +3,7 @@ public import Buffer_Linear_Primitive
 public import Buffer
 public import Index
 public import Memory_Allocator
+public import Memory_Allocator_Protocol
 public import Memory
 public import Storage
 
@@ -79,7 +80,7 @@ extension __Fixed where S: ~Copyable {
     @_lifetime(&self)
     public mutating func mutableSpan<E: ~Copyable>() -> Swift.MutableSpan<E>
     where S == Buffer<Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>>.Linear.Bounded {
-        store.mutableSpan
+        store.mutableSpan()
     }
 }
 
