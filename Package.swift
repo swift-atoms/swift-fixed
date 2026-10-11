@@ -89,21 +89,21 @@ let package = Package(
         ),
         .target(
             name: "Fixed Standard Library Integration",
-            dependencies: ["Fixed"]
+            dependencies: [.target(name: "Fixed")]
         ),
         .target(
             name: "Fixed Apple Foundation Integration",
             dependencies: [
-                "Fixed",
-                "Fixed Standard Library Integration",
+                .target(name: "Fixed"),
+                .target(name: "Fixed Standard Library Integration"),
             ]
         ),
         .testTarget(
             name: "Fixed Tests",
-            dependencies: ["Fixed", .product(name: "Buffer Test Support", package: "swift-buffer")]
+            dependencies: [.target(name: "Fixed"), .product(name: "Buffer Test Support", package: "swift-buffer")]
         ),
 
-        .testTarget(name: "Decision Fixed Integration Tests", dependencies: ["Fixed", .product(name: "Cardinal", package: "swift-cardinal"), .product(name: "Ordinal", package: "swift-ordinal"), .product(name: "Tagged", package: "swift-tagged"), .product(name: "Index", package: "swift-index"), .product(name: "Storage", package: "swift-storage"), .product(name: "Store", package: "swift-store"), .product(name: "Buffer", package: "swift-buffer")], path: "Tests/Decision Fixed Integration Tests"),
+        .testTarget(name: "Decision Fixed Integration Tests", dependencies: [.target(name: "Fixed"), .product(name: "Cardinal", package: "swift-cardinal"), .product(name: "Ordinal", package: "swift-ordinal"), .product(name: "Tagged", package: "swift-tagged"), .product(name: "Index", package: "swift-index"), .product(name: "Storage", package: "swift-storage"), .product(name: "Store", package: "swift-store"), .product(name: "Buffer", package: "swift-buffer")], path: "Tests/Decision Fixed Integration Tests"),
     ],
     swiftLanguageModes: [.v6]
 )

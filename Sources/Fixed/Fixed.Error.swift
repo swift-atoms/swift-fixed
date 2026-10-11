@@ -3,7 +3,7 @@ public import Store
 
 extension __Fixed where S: Store.`Protocol` & ~Copyable {
 
-    public enum Error: Swift.Error, Sendable, Equatable {
+    public enum Error: Swift::Error, Sendable, Equatable {
 
         case invalidCount(Index::Index<S.Element>.Count)
 

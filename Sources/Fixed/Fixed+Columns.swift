@@ -56,9 +56,9 @@ extension __Fixed where S: ~Copyable {
     }
 
     @inlinable
-    public init<E: ~Copyable, Failure: Swift.Error>(
+    public init<E: ~Copyable, Failure: Swift::Error>(
         capacity: Index::Index<E>.Count,
-        initializingWith initializer: (inout Swift.OutputSpan<E>) throws(Failure) -> Void
+        initializingWith initializer: (inout Swift::OutputSpan<E>) throws(Failure) -> Void
     ) throws(Failure)
     where S == Buffer<Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>>.Linear.Bounded {
         let buffer = try Buffer<Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>>.Linear
@@ -78,7 +78,7 @@ extension __Fixed where S: ~Copyable {
 
     @inlinable
     @_lifetime(&self)
-    public mutating func mutableSpan<E: ~Copyable>() -> Swift.MutableSpan<E>
+    public mutating func mutableSpan<E: ~Copyable>() -> Swift::MutableSpan<E>
     where S == Buffer<Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>>.Linear.Bounded {
         store.mutableSpan()
     }
@@ -89,7 +89,7 @@ extension __Fixed where S: ~Copyable {
 
     @unsafe
     @inlinable
-    public func withUnsafeBufferPointer<E, R, Failure: Swift.Error>(
+    public func withUnsafeBufferPointer<E, R, Failure: Swift::Error>(
         _ body: (UnsafeBufferPointer<E>) throws(Failure) -> R
     ) throws(Failure) -> R
     where S == Buffer<Storage<Memory.Allocator<Memory.Heap>>.Contiguous<E>>.Linear.Bounded {

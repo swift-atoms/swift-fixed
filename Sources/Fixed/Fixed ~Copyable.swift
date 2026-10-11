@@ -96,13 +96,13 @@ extension __Fixed where S: ~Copyable, S: Store.`Protocol` & Buffer.`Protocol` {
         let tail = count.subtract.saturating(.one).map(Ordinal.init)
         var carry = store.move(at: tail)
         if i == tail {
-            Swift.swap(&carry, &store[j])
+            Swift::swap(&carry, &store[j])
         } else if j == tail {
-            Swift.swap(&carry, &store[i])
+            Swift::swap(&carry, &store[i])
         } else {
-            Swift.swap(&carry, &store[i])
-            Swift.swap(&carry, &store[j])
-            Swift.swap(&carry, &store[i])
+            Swift::swap(&carry, &store[i])
+            Swift::swap(&carry, &store[j])
+            Swift::swap(&carry, &store[i])
         }
         store.initialize(at: tail, to: carry)
     }
