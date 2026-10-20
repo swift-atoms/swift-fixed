@@ -1,5 +1,5 @@
-import Fixed
 import Cardinal
+import Fixed
 import Ordinal
 import Storage
 import Tagged

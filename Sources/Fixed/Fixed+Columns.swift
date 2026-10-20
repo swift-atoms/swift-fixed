@@ -1,10 +1,10 @@
+public import Buffer
 public import Buffer_Linear_Bounded
 public import Buffer_Linear_Primitive
-public import Buffer
 public import Index
+public import Memory
 public import Memory_Allocator
 public import Memory_Allocator_Protocol
-public import Memory
 public import Storage
 
 extension __Fixed where S: ~Copyable {

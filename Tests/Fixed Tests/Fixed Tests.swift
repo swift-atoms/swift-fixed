@@ -1,11 +1,11 @@
+import Buffer
 import Buffer_Linear_Bounded_Primitive
 import Buffer_Linear_Primitive
-import Buffer
 import Buffer_Test_Support
 import Fixed
 import Index
-import Memory_Allocator
 import Memory
+import Memory_Allocator
 import Ordinal
 import Storage
 import Tagged

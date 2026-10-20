@@ -1,8 +1,8 @@
+public import Buffer
 public import Buffer_Linear_Bounded_Primitive
 public import Buffer_Linear_Primitive
-public import Buffer
-public import Memory_Allocator
 public import Memory
+public import Memory_Allocator
 public import Storage
 
 public typealias Fixed<E: ~Copyable> =
